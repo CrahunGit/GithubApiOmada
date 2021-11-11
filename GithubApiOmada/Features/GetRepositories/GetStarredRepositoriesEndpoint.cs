@@ -31,10 +31,10 @@ namespace GithubApiOmada.Features.GetRepositories
             Tags = new[] { "Starred-Repositories" })
         ]
         public override async Task<ActionResult<IEnumerable<GetGithubRepository.Response>>> HandleAsync(
-            [FromQuery] GetGithubRepository.Request request,
+            [FromQuery]GetGithubRepository.Request request,
             CancellationToken cancellationToken = default)
         {
-            HttpClient client = GetNewClient(request.token);
+            HttpClient client = GetNewClient(request.Token);
 
             try
             {
