@@ -1,3 +1,5 @@
+using GithubApiOmada.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,8 @@ builder.Services
         j.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         j.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
+
+builder.Services.AddDbContext<GithubDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
