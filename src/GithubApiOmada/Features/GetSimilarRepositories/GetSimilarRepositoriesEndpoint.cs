@@ -1,7 +1,5 @@
 using Ardalis.ApiEndpoints;
-using GithubApiOmada.Features.GetRepositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace GithubApiOmada.Features.GetSimilarRepositories
@@ -19,7 +17,7 @@ namespace GithubApiOmada.Features.GetSimilarRepositories
 
         [HttpGet(GetSimilarRepositories.RouteTemplate, Name = nameof(GetSimilarRepositoriesEndpoint))]
         [SwaggerOperation(
-            Summary = "Gets starred repository for user",
+            Summary = "Find similar repository that is not under GPL license",
             Description = "Get similar repositories that are not under GPL license",
             OperationId = "GetSimilarRepositories",
             Tags = new[] { "Similar-Repositories" })
@@ -28,11 +26,11 @@ namespace GithubApiOmada.Features.GetSimilarRepositories
             [FromQuery] GetSimilarRepositories.Request request,
             CancellationToken cancellationToken = default)
         {
-            var client = _clientFactory.CreateClient("github");
+            HttpClient? client = _clientFactory.CreateClient("github");
 
             try
             {
-                var repositories = await client.GetFromJsonAsync<GetSimilarRepositories.Response>(string.Format(GetSimilarRepositories.GithubRoute, request.RepositoryName), cancellationToken);
+                GetSimilarRepositories.Response? repositories = await client.GetFromJsonAsync<GetSimilarRepositories.Response>(string.Format(GetSimilarRepositories.GithubRoute, request.repositoryName), cancellationToken);
                 return Ok(repositories?.repositories);
             }
             catch

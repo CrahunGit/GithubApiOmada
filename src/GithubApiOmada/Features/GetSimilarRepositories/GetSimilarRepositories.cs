@@ -6,7 +6,7 @@ namespace GithubApiOmada.Features.GetSimilarRepositories
     public record GetSimilarRepositories
     {
         public const string RouteTemplate = "/api/similar-repositories";
-        public const string GithubRoute = "/search/repositories?q={0}%3Agpl%3Ain%3Alicense&sort=stars&order=desc";
+        public const string GithubRoute = "/search/repositories?q={0}%3AGPL%3Anot%3Ain%3Alicense&sort=stars&order=desc";
 
         public record Response
         {
@@ -23,7 +23,7 @@ namespace GithubApiOmada.Features.GetSimilarRepositories
         public class Request
         {
             [FromQuery]
-            public string? RepositoryName { get; set; }
+            public string? repositoryName { get; set; }
         }
     }
 }

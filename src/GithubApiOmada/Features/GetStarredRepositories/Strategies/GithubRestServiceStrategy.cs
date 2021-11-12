@@ -1,6 +1,7 @@
-﻿using Microsoft.Net.Http.Headers;
+﻿using GithubApiOmada.Features.GetStarredRepositories;
+using Microsoft.Net.Http.Headers;
 
-namespace GithubApiOmada.Features.GetRepositories
+namespace GithubApiOmada.Features.GetStarredRepositories.Strategies
 {
     /// <summary>
     /// <inheritdoc />
@@ -21,7 +22,7 @@ namespace GithubApiOmada.Features.GetRepositories
         /// </summary>
         public async Task<List<GetGithubRepositories.Response>> GetRepositories(string githubPersonalToken, CancellationToken cancellationToken)
         {
-            var client = GetNewClient(githubPersonalToken);
+            var client = GetNewClient(githubPersonalToken);            
             var repositories = await client.GetFromJsonAsync<List<GetGithubRepositories.Response>>(GetGithubRepositories.GithubRoute, cancellationToken);
             return repositories ?? new();
         }

@@ -4,7 +4,7 @@ using GithubApiOmada.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace GithubApiOmada.Features.GetRepositories
+namespace GithubApiOmada.Features.GetStarredRepositories
 {
     public class GetStarredRepositoriesEndpoint : BaseAsyncEndpoint
                                                     .WithRequest<GetGithubRepositories.Request>
@@ -35,7 +35,7 @@ namespace GithubApiOmada.Features.GetRepositories
         {
             try
             {
-                List<GetGithubRepositories.Response>? repositories = await GetRepositories(request.forceRestRead, request.Token, cancellationToken);
+                List<GetGithubRepositories.Response>? repositories = await GetRepositories(request.forceRestRead, request.token, cancellationToken);
                 return Ok(repositories);
             }
             catch
@@ -72,7 +72,7 @@ namespace GithubApiOmada.Features.GetRepositories
             repositories?
                 .Where(c => c.license?.key?.Contains(GPL_LICENSE, StringComparison.CurrentCultureIgnoreCase) ?? false)
                 .ToList()
-                .ForEach(c => c.Urls.Add(SIMILAR_REPO_LINK, Url.Link(nameof(GetSimilarRepositoriesEndpoint), new { RepositoryName = c.name })));
+                .ForEach(c => c.urls.Add(SIMILAR_REPO_LINK, Url.Link(nameof(GetSimilarRepositoriesEndpoint), new { RepositoryName = c.name })));
             return repositories ?? new();
         }
 

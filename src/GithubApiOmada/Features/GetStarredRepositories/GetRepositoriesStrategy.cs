@@ -1,4 +1,4 @@
-﻿namespace GithubApiOmada.Features.GetRepositories
+﻿namespace GithubApiOmada.Features.GetStarredRepositories
 {
     /// <summary>
     /// Get github repositories from differente places (rest, database, etc)

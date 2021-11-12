@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace GithubApiOmada.Features.GetRepositories
+namespace GithubApiOmada.Features.GetStarredRepositories
 {
     public record GetGithubRepositories
     {
@@ -11,13 +11,13 @@ namespace GithubApiOmada.Features.GetRepositories
 
         public record Response(int id, string name, License license)
         {
-            public Dictionary<string, string?> Urls { get; set; } = new();
+            public Dictionary<string, string?> urls { get; set; } = new();
         }
 
         public class Request
         {
             [FromHeader]
-            public string Token { get; set; }
+            public string token { get; set; }
 
             [FromQuery]
             public bool forceRestRead { get; set; }

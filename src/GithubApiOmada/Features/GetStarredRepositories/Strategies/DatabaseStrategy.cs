@@ -1,7 +1,8 @@
-﻿using GithubApiOmada.Infrastructure.Persistence;
+﻿using GithubApiOmada.Features.GetStarredRepositories;
+using GithubApiOmada.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace GithubApiOmada.Features.GetRepositories
+namespace GithubApiOmada.Features.GetStarredRepositories.Strategies
 {
     /// <summary>
     /// <inheritdoc />

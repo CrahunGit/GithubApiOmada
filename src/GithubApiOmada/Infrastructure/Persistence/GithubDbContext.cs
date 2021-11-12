@@ -1,5 +1,4 @@
-﻿using GithubApiOmada.Features.GetRepositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace GithubApiOmada.Infrastructure.Persistence
 {
