@@ -1,45 +1,28 @@
-using Ardalis.ApiEndpoints;
-using GithubApiOmada.Features.GetRepositories;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
-using Swashbuckle.AspNetCore.Annotations;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace GithubApiOmada.Features.GetSimilarRepositories
 {
-    public class GetSimilarRepositories : BaseAsyncEndpoint
-                                                    .WithRequest<string>
-                                                    .WithResponse<IEnumerable<GetGithubRepository>>
+    public record GetSimilarRepositories(int id, string name, GetSimilarRepositories.License license)  
     {
-        private readonly IHttpClientFactory _clientFactory;
+        public const string RouteTemplate = "/api/similar-repositories";
+        public const string GithubRoute = "/search/repositories?q={0}&sort=stars&order=desc";
 
-        public GetSimilarRepositories(IHttpClientFactory clientFactory)
+        public record License(string key, string name);
+
+        public record Response(int id, string name)
         {
-            _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
+            public Dictionary<string, string?> Urls { get; set; } = new();
         }
 
-        [HttpGet("/api/similar-repositories", Name = nameof(GetSimilarRepositories))]
-        [SwaggerOperation(
-            Summary = "Gets starred repository for user",
-            Description = "Get all starred repos for the user represented by personal token",
-            OperationId = "Author.Repositories.GetList",
-            Tags = new[] { "Similar-Repositories" })
-        ]
-        public override async Task<ActionResult<IEnumerable<GetGithubRepository>>> HandleAsync(
-            [FromHeader(Name = "token")] string token,
-            CancellationToken cancellationToken = default)
-        {
-            var client = _clientFactory.CreateClient("github");
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, $"token {token}");
+        public record Owner(int id, string login);
 
-            try
-            {
-                var repositories = await client.GetFromJsonAsync<IEnumerable<GetGithubRepository>>("/user/starred", cancellationToken);
-                return Ok(repositories);
-            }
-            catch
-            {
-                return BadRequest("Error fetching github Api");
-            }
+        public class Request
+        {
+            [FromHeader]
+            public string? Token { get; set; }
+
+            [FromQuery]
+            public string? RepositoryName { get; set; }
         }
     }
 }

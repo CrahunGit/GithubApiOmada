@@ -1,3 +1,4 @@
+using GithubApiOmada.Features.GetRepositories;
 using GithubApiOmada.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -21,10 +22,16 @@ builder.Services
     });
 
 builder.Services.AddDbContext<GithubDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddScoped<GetRepositoriesStrategy, GithubRestServiceStrategy>();
+builder.Services.AddScoped<GetRepositoriesStrategy, DatabaseStrategy>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => c.EnableAnnotations());
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+    c.CustomSchemaIds(type => type.ToString());
+});
 
 var app = builder.Build();
 
