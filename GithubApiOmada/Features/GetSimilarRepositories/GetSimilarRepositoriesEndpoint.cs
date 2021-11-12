@@ -20,7 +20,7 @@ namespace GithubApiOmada.Features.GetSimilarRepositories
         [HttpGet(GetSimilarRepositories.RouteTemplate, Name = nameof(GetSimilarRepositoriesEndpoint))]
         [SwaggerOperation(
             Summary = "Gets starred repository for user",
-            Description = "Get all starred repos for the user represented by personal token",
+            Description = "Get similar repositories that are not under GPL license",
             OperationId = "GetSimilarRepositories",
             Tags = new[] { "Similar-Repositories" })
         ]
@@ -29,12 +29,11 @@ namespace GithubApiOmada.Features.GetSimilarRepositories
             CancellationToken cancellationToken = default)
         {
             var client = _clientFactory.CreateClient("github");
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, $"token {request.Token}");
 
             try
             {
-                var repositories = await client.GetFromJsonAsync<IEnumerable<GetGithubRepositories>>(GetSimilarRepositories.GithubRoute, cancellationToken);
-                return Ok(repositories);
+                var repositories = await client.GetFromJsonAsync<GetSimilarRepositories.Response>(string.Format(GetSimilarRepositories.GithubRoute, request.RepositoryName), cancellationToken);
+                return Ok(repositories?.repositories);
             }
             catch
             {

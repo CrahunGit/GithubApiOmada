@@ -1,26 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace GithubApiOmada.Features.GetSimilarRepositories
 {
-    public record GetSimilarRepositories(int id, string name, GetSimilarRepositories.License license)  
+    public record GetSimilarRepositories
     {
         public const string RouteTemplate = "/api/similar-repositories";
-        public const string GithubRoute = "/search/repositories?q={0}&sort=stars&order=desc";
+        public const string GithubRoute = "/search/repositories?q={0}%3Agpl%3Ain%3Alicense&sort=stars&order=desc";
 
-        public record License(string key, string name);
-
-        public record Response(int id, string name)
+        public record Response
         {
-            public Dictionary<string, string?> Urls { get; set; } = new();
+            [JsonPropertyName("items")]
+            public Repository[]? repositories { get; set; }
         }
 
-        public record Owner(int id, string login);
+        public record Repository(int id, string name, string description)
+        {
+            [JsonPropertyName("html_url")]
+            public string? url { get; set; }
+        }
 
         public class Request
         {
-            [FromHeader]
-            public string? Token { get; set; }
-
             [FromQuery]
             public string? RepositoryName { get; set; }
         }

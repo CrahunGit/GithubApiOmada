@@ -2,7 +2,7 @@
 
 namespace GithubApiOmada.Features.GetRepositories
 {
-    public record GetGithubRepositories(int id, string name, GetGithubRepositories.License license)
+    public record GetGithubRepositories
     {
         public const string RouteTemplate = "/api/starred-repositories";
         public const string GithubRoute = "/user/starred";
