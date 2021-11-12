@@ -3,7 +3,7 @@ Omada training
 This a training for Omada. Just por learning purposes.
 
 # Configuration
-Just need to add appsettings connection string or user secrets. Should be configured on appsettings in integration test project as well.
+You just need to add appsettings connection string or user secrets. Should be configured on appsettings in integration test project as well.
 ```json
   "ConnectionStrings": {
     "Default": "YOUR_CONNECTION_STRING"
